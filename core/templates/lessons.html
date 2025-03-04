@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2 class="text-2xl font-bold mb-4">All Lessons</h2>
+
+  <div class="grid grid-cols-4 gap-4">
+    
+    <!-- Sidebar for Topics -->
+    <div class="col-span-1 bg-white p-4 shadow rounded-lg">
+      <h3 class="text-lg font-bold mb-2">Lesson Topics</h3>
+      <ul>
+        <li>
+          <a href="{% url 'lessons' %}" class="text-blue-500 hover:underline {% if not selected_topic %}font-bold{% endif %}">
+            All Topics
+          </a>
+        </li>
+        {% for topic in topics %}
+          <li>
+            <a href="?topic={{ topic }}" class="text-blue-500 hover:underline {% if selected_topic == topic %}font-bold{% endif %}">
+              {{ topic }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Main Content: Display Lessons -->
+    <div class="col-span-3">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {% for lesson in lessons %}
+          <a href="{% url 'lesson_detail' lesson.slug %}" class="block p-4 bg-white shadow-lg rounded-lg hover:bg-gray-100 transition">
+            <h3 class="text-lg font-semibold">{{ lesson.title }}</h3>
+            <p class="text-gray-600"><strong>Topic:</strong> {{ lesson.topic }}</p>
+          </a>
+        {% empty %}
+          <p>No lessons available for this topic.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <a href="{% url 'home' %}" class="text-blue-500 hover:underline">&larr; Back to Home</a>
+
+  <div class="mt-6 p-6 bg-white shadow-lg rounded-lg">
+    <h2 class="text-2xl font-bold">AI-Powered Adaptive Quiz</h2>
+    <p class="text-gray-600">Answer questions and receive instant feedback.</p>
+
+    <div id="chat-box" class="mt-4 p-4 bg-gray-100 rounded h-96 overflow-y-auto">
+      <p class="text-gray-500">👋 Welcome! I will ask you questions based on your learning level.</p>
+    </div>
+
+    <form id="quiz-form" class="mt-4">
+      {% csrf_token %}
+      <input type="text" id="user-input" placeholder="Type your answer..." 
+             class="w-full p-2 border rounded">
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Submit</button>
+    </form>
+  </div>
+
+  <!-- Chat-Based Quiz Script -->
+  <script>
+    document.getElementById("quiz-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      
+      let inputField = document.getElementById("user-input");
+      let userMessage = inputField.value.trim();
+      if (userMessage === "") return;
+
+      // Add user message to chat
+      let chatBox = document.getElementById("chat-box");
+      let userMessageElement = document.createElement("p");
+      userMessageElement.classList.add("text-blue-600", "font-semibold", "mt-2");
+      userMessageElement.innerHTML = "🧑 " + userMessage;
+      chatBox.appendChild(userMessageElement);
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Clear input
+      inputField.value = "";
+
+      // Send to AI backend
+      fetch("{% url 'quiz_chat' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({ message: userMessage })
+      })
+      .then(response => response.json())
+      .then(data => {
+        let aiMessageElement = document.createElement("p");
+        aiMessageElement.classList.add("text-gray-800", "bg-gray-200", "p-2", "rounded", "mt-2");
+        aiMessageElement.innerHTML = "🤖 " + data.response;
+        chatBox.appendChild(aiMessageElement);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      });
+    });
+  </script>
+{% endblock %}

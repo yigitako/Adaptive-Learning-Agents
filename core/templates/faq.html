@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <a href="{% url 'home' %}" class="text-blue-500 hover:underline">&larr; Back to Home</a>
+
+  <div class="mt-6 p-6 bg-white shadow-lg rounded-lg">
+    <h2 class="text-2xl font-bold">Frequently Asked Questions</h2>
+    <p class="text-gray-600 mb-4">Click a question to reveal the answer.</p>
+
+    <div class="faq-list">
+      {% for faq in faqs %}
+        <div class="faq-item border-b border-gray-300 pb-4 mb-4">
+          <button class="faq-question text-lg font-semibold text-blue-600 hover:underline focus:outline-none w-full text-left">
+            {{ faq.question }}
+          </button>
+          <div class="faq-answer mt-2 p-4 bg-gray-100 rounded hidden">
+            <p class="text-gray-700">{{ faq.answer }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- FAQ Toggle Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const questions = document.querySelectorAll(".faq-question");
+      questions.forEach(question => {
+        question.addEventListener("click", function () {
+          const answer = this.nextElementSibling;
+          answer.classList.toggle("hidden");
+        });
+      });
+    });
+  </script>
+{% endblock %}

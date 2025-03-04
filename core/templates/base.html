@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Adaptive Learning{% endblock %}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+<nav class="bg-blue-600 text-white py-4 shadow-md">
+    <div class="max-w-5xl mx-auto flex justify-between items-center px-4">
+        <a href="{% url 'home' %}" class="text-2xl font-bold hover:opacity-80">Adaptive Learning</a>
+        <ul class="hidden md:flex space-x-6">
+            <li><a href="{% url 'home' %}" class="hover:underline">Home</a></li>
+            <li><a href="{% url 'lessons' %}" class="hover:underline">Lessons</a></li>
+            <li><a href="{% url 'faq' %}" class="hover:underline">Faq</a></li>
+            <li><a href="#" class="hover:underline">About</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden bg-white text-black p-4">
+    <a href="{% url 'home' %}" class="block py-2">Home</a>
+    <a href="#" class="block py-2">About</a>
+    <a href="?topic=Algebra" class="block py-2">Algebra</a>
+    <a href="?topic=Geometry" class="block py-2">Geometry</a>
+    <a href="?topic=Probability" class="block py-2">Probability</a>
+</div>
+
+<!-- Main Content -->
+<div class="max-w-5xl mx-auto p-6">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- Footer -->
+<footer class="text-center mt-6 text-gray-600 py-4 bg-gray-100">
+    <p>&copy; 2024 Adaptive Learning. All rights reserved.</p>
+</footer>
+
+<script>
+    // Mobile Menu Toggle
+    document.getElementById("mobile-menu-btn").addEventListener("click", function () {
+      document.getElementById("mobile-menu").classList.toggle("hidden");
+    });
+
+</script>
+
+</body>
+</html>
