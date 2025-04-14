@@ -6,5 +6,4 @@ urlpatterns = [
     path('lessons/', lessons, name='lessons'),
     path('lesson/<slug:slug>/', lesson_detail, name='lesson_detail'),
     path('faq/', faq, name='faq'),
-    path('quiz/<slug:slug>/', quiz, name='quiz'),  # Quiz Route
 ]
