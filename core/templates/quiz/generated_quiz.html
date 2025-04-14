@@ -1,0 +1,18 @@
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="questions_json" value='{{ questions_json|escapejs }}'>
+
+    {% for q in questions %}
+        <div class="mb-6">
+            <h3 class="font-semibold text-lg">{{ q.question }}</h3>
+            {% for choice in q.choices %}
+                <label class="block">
+                    <input type="radio" name="q{{ forloop.counter0 }}" value="{{ choice.0 }}" required>
+                    {{ choice }}
+                </label>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    <button class="bg-blue-600 text-white px-6 py-2 rounded">Submit</button>
+</form>
